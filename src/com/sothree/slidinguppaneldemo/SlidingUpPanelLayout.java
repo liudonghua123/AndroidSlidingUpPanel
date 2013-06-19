@@ -118,6 +118,7 @@ public class SlidingUpPanelLayout extends ViewGroup {
     private boolean mFirstLayout = true;
 
     private final Rect mTmpRect = new Rect();
+    private boolean mIsMotionDisabled;
 
     /**
      * Listener for monitoring events about sliding panes.
@@ -475,6 +476,9 @@ public class SlidingUpPanelLayout extends ViewGroup {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
+        if (mIsMotionDisabled) {
+            return super.onInterceptTouchEvent(ev);
+        }
         final int action = MotionEventCompat.getActionMasked(ev);
 
 
@@ -522,9 +526,17 @@ public class SlidingUpPanelLayout extends ViewGroup {
         return interceptForDrag || interceptTap;
     }
 
+    public void disableMotion() {
+        mIsMotionDisabled = true;
+    }
+
+    public void enableMotion() {
+        mIsMotionDisabled = false;
+    }
+
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
-        if (!mCanSlide) {
+        if (!mCanSlide || mIsMotionDisabled) {
             return super.onTouchEvent(ev);
         }
 
