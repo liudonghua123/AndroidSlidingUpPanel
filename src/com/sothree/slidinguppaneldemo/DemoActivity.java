@@ -20,7 +20,7 @@ public class DemoActivity extends Activity {
 
         SlidingUpPanelLayout layout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
         layout.setShadowDrawable(getResources().getDrawable(R.drawable.above_shadow));
-        layout.setPanelSlideListener(new PanelSlideListener() {
+        layout.addPanelSlideListener(new PanelSlideListener() {
 
             @Override
             public void onPanelSlide(View panel, float slideOffset) {

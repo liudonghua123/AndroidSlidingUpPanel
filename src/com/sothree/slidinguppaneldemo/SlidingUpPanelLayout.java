@@ -20,6 +20,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.accessibility.AccessibilityEvent;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SlidingUpPanelLayout extends ViewGroup {
     private static final String TAG = "SlidingPaneLayout";
 
@@ -105,7 +108,7 @@ public class SlidingUpPanelLayout extends ViewGroup {
     private float mInitialMotionY;
     private boolean mDragViewHit;
 
-    private PanelSlideListener mPanelSlideListener;
+    private List<PanelSlideListener> mPanelSlideListeners = new ArrayList<PanelSlideListener>();
 
     private final ViewDragHelper mDragHelper;
 
@@ -220,8 +223,8 @@ public class SlidingUpPanelLayout extends ViewGroup {
         return mPanelHeight;
     }
 
-    public void setPanelSlideListener(PanelSlideListener listener) {
-        mPanelSlideListener = listener;
+    public void addPanelSlideListener(PanelSlideListener listener) {
+        mPanelSlideListeners.add(listener);
     }
 
     /**
@@ -242,21 +245,21 @@ public class SlidingUpPanelLayout extends ViewGroup {
     }
 
     void dispatchOnPanelSlide(View panel) {
-        if (mPanelSlideListener != null) {
-            mPanelSlideListener.onPanelSlide(panel, mSlideOffset);
+        for (PanelSlideListener panelSlideListener : mPanelSlideListeners) {
+            panelSlideListener.onPanelSlide(panel, mSlideOffset);
         }
     }
 
     void dispatchOnPanelExpanded(View panel) {
-        if (mPanelSlideListener != null) {
-            mPanelSlideListener.onPanelExpanded(panel);
+        for (PanelSlideListener panelSlideListener : mPanelSlideListeners) {
+            panelSlideListener.onPanelExpanded(panel);
         }
         sendAccessibilityEvent(AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED);
     }
 
     void dispatchOnPanelCollapsed(View panel) {
-        if (mPanelSlideListener != null) {
-            mPanelSlideListener.onPanelCollapsed(panel);
+        for (PanelSlideListener panelSlideListener : mPanelSlideListeners) {
+            panelSlideListener.onPanelCollapsed(panel);
         }
         sendAccessibilityEvent(AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED);
     }
