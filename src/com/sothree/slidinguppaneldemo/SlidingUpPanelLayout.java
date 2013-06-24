@@ -20,8 +20,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.accessibility.AccessibilityEvent;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class SlidingUpPanelLayout extends ViewGroup {
     private static final String TAG = "SlidingPaneLayout";
@@ -108,7 +108,7 @@ public class SlidingUpPanelLayout extends ViewGroup {
     private float mInitialMotionY;
     private boolean mDragViewHit;
 
-    private List<PanelSlideListener> mPanelSlideListeners = new ArrayList<PanelSlideListener>();
+    private Set<PanelSlideListener> mPanelSlideListeners = new HashSet<PanelSlideListener>();
 
     private final ViewDragHelper mDragHelper;
 
