@@ -507,7 +507,7 @@ public class SlidingUpPanelLayout extends ViewGroup {
                 mDragViewHit = isDragViewHit((int) x, (int) y);
 
                 if (mDragViewHit) {
-                    interceptTap = true;
+                    interceptTap = !mDragView.dispatchTouchEvent(ev);
                 }
                 break;
             }
